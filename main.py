@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.v1.routes import analysis
+
 
 app = FastAPI(
     title="Media and Information Literacy (MIL) Content Analysis API",
@@ -7,7 +7,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-app.include_router(analysis.router, prefix="/api/v1", tags=["Analysis"])
 
 
 app.get("/", tags=["Root"])
