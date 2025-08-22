@@ -7,6 +7,18 @@ name = "pypi"
 fastapi = "*"
 uvicorn = "*"
 pydantic = "*"
+huggingface-hub = "*"
+python-multipart = "*"
+python-dotenv = "*"
+ffmpeg = "*"
+torch = "*"
+transformers = "*"
+datasets = {extras = ["audio"], version = "*"}
+accelerate = "*"
+torchaudio = "*"
+numpy = "*"
+pillow = "*"
+assemblyai = "*"
 
 [dev-packages]
 
