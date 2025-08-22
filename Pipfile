@@ -7,6 +7,11 @@ name = "pypi"
 fastapi = "*"
 uvicorn = "*"
 pydantic = "*"
+python-multipart = "*"
+python-dotenv = "*"
+pillow = "*"
+assemblyai = "*"
+pytesseract = "*"
 
 [dev-packages]
 
