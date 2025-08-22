@@ -2,7 +2,7 @@
 import re
 from typing import List, Dict, Any
 
-from app.text.claim_extraction import FactualClaim
+from app.services.text.claim_extraction import FactualClaim
 from .claim_extraction import extract_claims
 
 def clean_text(text: str) -> str:

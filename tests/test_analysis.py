@@ -17,7 +17,7 @@ def test_analyze_content_reliable():
     assert "reliable" in data["explanation"].lower()
 
 
-# Test content ith trigger words (should be flagged)
+# Test content with trigger words (should be flagged)
 def test_analyze_content_misleading():
     response = client.post(
         "/api/v1/analyze",
