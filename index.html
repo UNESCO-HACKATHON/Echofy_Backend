@@ -1,16 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="http://127.0.0.1:6001/api/analyze/audio/" method="post" enctype="multipart/form-data">
-        <input type="file" name="audio_file" accept="audio/*" required/>
-        <br/>
-        <br/>
-        <button type="submit">Upload</button>
-    </form>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Media Analysis Upload</title>
+        <style>
+            body {
+                background: #f6f8fa;
+                font-family: "Segoe UI", Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+            }
+            .container {
+                max-width: 400px;
+                margin: 40px auto;
+                background: #fff;
+                border-radius: 12px;
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+                padding: 32px 28px 24px 28px;
+            }
+            h1 {
+                text-align: center;
+                color: #2d3748;
+                margin-bottom: 32px;
+            }
+            h2 {
+                color: #4a5568;
+                font-size: 1.2rem;
+                margin-bottom: 12px;
+                margin-top: 24px;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 18px;
+            }
+            input[type="file"] {
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                padding: 8px;
+                background: #f1f5f9;
+                font-size: 1rem;
+            }
+            button {
+                background: #2563eb;
+                color: #fff;
+                border: none;
+                border-radius: 6px;
+                padding: 10px 0;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+            button:hover {
+                background: #1d4ed8;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Media Analysis Upload</h1>
+            <h2>Upload Audio File</h2>
+            <form
+                action="http://127.0.0.1:6001/api/analyze/audio/"
+                method="post"
+                enctype="multipart/form-data"
+            >
+                <input
+                    type="file"
+                    name="audio_file"
+                    accept="audio/*"
+                    required
+                />
+                <button type="submit">Upload Audio</button>
+            </form>
+            <h2>Upload Image File</h2>
+            <form
+                action="http://127.0.0.1:6001/api/analyze/image/"
+                method="post"
+                enctype="multipart/form-data"
+            >
+                <input
+                    type="file"
+                    name="image_file"
+                    accept="image/*"
+                    required
+                />
+                <button type="submit">Upload Image</button>
+            </form>
+        </div>
+    </body>
 </html>

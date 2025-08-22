@@ -1,9 +1,11 @@
 from fastapi  import APIRouter
-import audio
+from . import audio, image, tasks
 
 router = APIRouter()
 
 router.include_router(audio.router)
+router.include_router(image.router)
+router.include_router(tasks.router)
 
 @router.post("/analyze/text/")
 async def analyze_text(content: str):
