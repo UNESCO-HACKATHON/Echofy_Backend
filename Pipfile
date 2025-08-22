@@ -19,6 +19,7 @@ torchaudio = "*"
 numpy = "*"
 pillow = "*"
 assemblyai = "*"
+pytesseract = "*"
 
 [dev-packages]
 
