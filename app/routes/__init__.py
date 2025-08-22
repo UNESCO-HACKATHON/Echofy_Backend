@@ -8,10 +8,7 @@ router.include_router(image.router)
 router.include_router(text.router)
 router.include_router(tasks.router)
 
-@router.post("/analyze/image/")
-async def analyze_image(content: str):
-    # Placeholder for content analysis logic
-    return {"message": "Content analyzed", "content": content}
+# Removed duplicate '/analyze/image/' endpoint to avoid route conflict.
 
 @router.post("/analyze/video/")
 async def analyze_video(content : str):

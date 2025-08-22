@@ -19,7 +19,7 @@ app.add_middleware(
 app.include_router(routes.router, prefix="/api", tags=["Content Analysis"])
 
 
-app.get("/", tags=["Root"])
+@app.get("/", tags=["Root"])
 async def read_root():
     """
     A simple welcome message to confirm the API is up and running.
