@@ -81,16 +81,22 @@ def extract_entities(text: str) -> List[NamedEntity]:
     unique_entities = { (e.text.lower(), e.label) : e for e in entities }
     return list(unique_entities.values())
 
+from urllib.parse import urlparse
+# ... existing code ...
 def analyze_source(url: Optional[str] = None, author: Optional[str] = None) -> SourceAnalysisResult:
     """Analyzes the source of the text for credibility and bias."""
     credibility_score = 0.8
     notes = "Source not found in the watchlist."
 
     if url:
-        domain = url.split('/')[2]
-        if domain in BIASED_SOURCES:
-            credibility_score = 0.5
-            notes = f"Source domain '{domain}' is on a watchlist: {BIASED_SOURCES[domain]}"
+        try:
+            domain = urlparse(url).netloc
+            if domain and domain in BIASED_SOURCES:
+                credibility_score = 0.5
+                notes = f"Source domain '{domain}' is on a watchlist: {BIASED_SOURCES[domain]}"
+        except Exception:
+            # If URL parsing fails, we just treat it as if no URL was provided
+            pass
 
     # Generate the dynamic assessment using the AI
     dynamic_assessment = generate_dynamic_assessment(notes, credibility_score)
