@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional, Dict
+from urllib.parse import urlparse
 
 # Import all the analysis modules
 from .parser import ingest_and_parse
@@ -24,8 +25,10 @@ class AnalysisRequest(BaseModel):
 class ClaimBreakdown(BaseModel):
     claim: str
     status: str
-    supporting_sources: List[str] = []
     reason: Optional[str] = None
+    corrective_statement: Optional[str] = None
+    supporting_evidence: Optional[str] = None
+    sources: List[Dict[str, str]] = []
 
 class SourceBreakdown(BaseModel):
     publisher: Optional[str] = None
@@ -70,22 +73,19 @@ async def analyze_text_content(request: AnalysisRequest):
         claim_breakdowns: List[ClaimBreakdown] = []
         claim_verifications_for_scoring: List[ClaimVerification] = []
         for claim_model in claims:
-            verification_response = verify_claim(claim_model.text)
+            verification_result = verify_claim(claim_model.text)
             
-            status = "UNCERTAIN"
-            if "SUPPORTED" in verification_response.upper():
-                status = "SUPPORTED"
-            elif "CONTRADICTED" in verification_response.upper():
-                status = "CONTRADICTED"
-
             claim_breakdowns.append(ClaimBreakdown(
-                claim=claim_model.text,
-                status=status,
-                reason=verification_response
+                claim=verification_result.claim,
+                status=verification_result.final_assessment,
+                reason=verification_result.reasoning,
+                corrective_statement=verification_result.corrective_statement,
+                supporting_evidence=verification_result.supporting_evidence,
+                sources=verification_result.sources
             ))
             # Create the correct Pydantic model for scoring
             claim_verifications_for_scoring.append(
-                ClaimVerification(claim=claim_model.text, final_assessment=status)
+                ClaimVerification(claim=verification_result.claim, final_assessment=verification_result.final_assessment)
             )
 
         # 5. Aggregate final score
@@ -96,10 +96,17 @@ async def analyze_text_content(request: AnalysisRequest):
         )
 
         # 6. Assemble the final response
+        publisher = "Unknown"
+        if request.url:
+            try:
+                publisher = urlparse(request.url).netloc or "Unknown"
+            except Exception:
+                publisher = "Invalid URL"
+        
         response_breakdown = Breakdown(
             claim_extraction=claim_breakdowns,
             source_analysis=SourceBreakdown(
-                publisher=request.url.split('/')[2] if request.url else "Unknown",
+                publisher=publisher,
                 credibility_score=source_analysis_result.credibility_score,
                 potential_bias=source_analysis_result.bias_assessment
             ),

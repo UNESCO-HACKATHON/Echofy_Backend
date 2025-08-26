@@ -48,7 +48,7 @@ async def file_processor(task_id: str, file_path: str, processor):
         result = await loop.run_in_executor(
             None, processor, file_path
         )  # Run processor in thread
-        tasks[task_id] = {"status": "completed", "result": result}  # Save result
+        tasks[task_id] = {"status": "completed", "result": result}
         print(f"task: {tasks[task_id]}, finished")
     except Exception as e:
         tasks[task_id] = {"status": "error", "error": str(e)}  # Save error
